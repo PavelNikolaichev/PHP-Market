@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\CatalogUnit;
 use Illuminate\Database\Seeder;
 
 class CatalogUnitSeeder extends Seeder
@@ -14,6 +14,11 @@ class CatalogUnitSeeder extends Seeder
      */
     public function run()
     {
-        //
+        CatalogUnit::factory(10)->create();
+
+        CatalogUnit::factory()->create([
+            'type' => 'Product',
+            'price' => 1000,
+        ]);
     }
 }

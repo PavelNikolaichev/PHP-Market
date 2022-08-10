@@ -17,7 +17,8 @@ class CatalogUnitFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'type' => fake()->words(3, true),
+            'price' => fake()->randomDigitNotNull,
         ];
     }
 }
