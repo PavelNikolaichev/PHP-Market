@@ -14,7 +14,8 @@ class CatalogUnitSeeder extends Seeder
      */
     public function run()
     {
-        CatalogUnit::factory(10)->create();
+        CatalogUnit::factory(10)->product()->create();
+        CatalogUnit::factory(10)->service()->create();
 
         CatalogUnit::factory()->create([
             'type' => 'Product',
