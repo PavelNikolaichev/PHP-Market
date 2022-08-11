@@ -20,6 +20,7 @@ class AttributeFactory extends Factory
         return [
             'name' => fake()->word(),
             'value' => fake()->randomDigitNotNull,
+            'catalog_unit_id' => fake()->randomDigitNotNull,
         ];
     }
 }

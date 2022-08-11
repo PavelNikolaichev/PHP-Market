@@ -23,11 +23,7 @@ class CatalogUnitController extends Controller
         ];
 
         CatalogUnit::where('type', 'Service')->get()->each(function (CatalogUnit $catalogUnit) use (&$data) {
-            $catalogUnit->attributes()->get()->each(function (Attribute $attribute) use ($catalogUnit, &$data) {
-                if ($attribute->name === 'RelatedProducts') {
-                    $data['services'][] = $catalogUnit;
-                }
-            });
+            $catalogUnit->attributes()->where('name', 'RelatedTypes')->get();
         });
 
 //        $services = CatalogUnit::with('attributes')->where('type', 'Service')->where('rel_type', $data['catalogUnits'][0]->type)->get();

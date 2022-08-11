@@ -16,7 +16,7 @@ class CatalogUnitFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'type' => fake()->words(3, true),
@@ -27,6 +27,14 @@ class CatalogUnitFactory extends Factory
     public function configure()
     {
         return $this->afterCreating(function (CatalogUnit $catalogUnit) {
+            if ($catalogUnit->type === 'Service') {
+               Attribute::factory()->create([
+                    'name' => 'RelatedTypes',
+                    'value' => CatalogUnit::select('type')->distinct()->get()->random(1)->first()->type,
+                    'catalog_unit_id' => $catalogUnit->id,
+                ]);
+            }
+
             Attribute::factory(3)->create(['catalog_unit_id' => $catalogUnit->id]);
         });
     }
@@ -44,7 +52,7 @@ class CatalogUnitFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'type' => 'product',
+                'type' => 'Product',
             ];
         });
     }

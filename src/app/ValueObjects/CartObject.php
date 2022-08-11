@@ -12,14 +12,12 @@ class CartObject
 
     public function __construct(private array $items=[]) {}
 
-    public function add(CatalogUnit $item, int $relatedID=null): static
+    public function add(CatalogUnit $item, ?int $relatedID=null): static
     {
         if ($item->type === 'Service') {
             if ($relatedID === null) {
                 throw new RuntimeException('Services cannot be added without a related product');
             }
-
-            // Find attribute with related service ID
 
             $this->relations[$relatedID][] = $item->id;
         }
@@ -42,21 +40,6 @@ class CartObject
 
         $this->items = array_values($this->items);
         return $this;
-//        $this->items = array_filter($this->items, static function($i) use ($item) {
-//            return $i !== $item;
-//        });
-//
-//        if (isset($this->relations[$item->id])) {
-//            $this->items = array_filter($this->items, function($i) use ($item) {
-//                return !in_array($i->id, $this->relations[$item->id], true);
-//            });
-//            unset($this->relations[$item->id]);
-//
-//            // Reindex array after removing the element
-//            $this->relations = array_values($this->relations);
-//        }
-//
-//        return $this;
     }
 
     public function getItems(): array
