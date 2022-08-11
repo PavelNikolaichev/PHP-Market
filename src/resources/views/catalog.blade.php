@@ -40,13 +40,13 @@
                         <th>{{ $unit->type }}</th>
                         <th>{{ $unit->price }}</th>
                         <th>
-                            @foreach ($unit->attributes as $attributeName => $attributeValue)
-                                @if (is_iterable($attributeValue))
-                                    @foreach ($attributeValue as $value)
+                            @foreach ($unit->attributes as $attribute)
+                                @if (is_iterable($attribute->value))
+                                    @foreach ($attribute->value as $value)
                                         {{ $value }}
                                     @endforeach,
                                 @else
-                                    {{ $attributeName }}: {{ $attributeValue }},
+                                    {{ $attribute->name }}: {{ $attribute->value }},
                                 @endif
                             @endforeach
                         </th>
@@ -76,14 +76,13 @@
                         <th>{{ $service->type }}</th>
                         <th>{{ $service->price }}</th>
                         <th>
-                            @foreach ($service->attributes as $attributeName => $attributeValue)
-                                @if (is_iterable($attributeValue))
-                                    {{ $attributeName }}
-                                    @foreach ($attributeValue as $value)
-                                        {{ $value }},
-                                    @endforeach
+                            @foreach ($service->attributes as $attribute)
+                                @if (is_iterable($attribute->value))
+                                    @foreach ($attribute->value as $value)
+                                        {{ $value }}
+                                    @endforeach,
                                 @else
-                                    {{ $attributeName }}: {{ $attributeValue }}
+                                    {{ $attribute->name }}: {{ $attribute->value }},
                                 @endif
                             @endforeach
                         </th>
@@ -97,14 +96,14 @@
             <h2>Operations</h2>
             @foreach ($cart_hist as $operation)
                 <div class="container">
-                    <p>Total Price: {{ $operation->calculatePrice }}</p>
-                    @foreach ($operation->getItems as $item)
+                    <p>Total Price: {{ $operation->calculatePrice() }}</p>
+                    @foreach ($operation->getItems() as $item)
                         <p><b><i>{{ $item->type }}</i></b>: {{ $item->price }}</p>
-                        @foreach ($item->attributes as $attributeName => $attributeValue)
-                            @if (is_iterable($attributeValue))
-                                <p>{{ $attributeName }}: @foreach($attributeValue as $value) {{ $value }} @endforeach</p>
+                        @foreach ($item->attributes as $attribute)
+                            @if (is_iterable($attribute->value))
+                                <p>{{ $attribute->name }}: @foreach($attribute->value as $value) {{ $value }} @endforeach</p>
                             @else
-                                <p>{{ $attributeName }}: {{ $attributeValue }}</p>
+                                <p>{{ $attribute->name }}: {{ $attribute->value }}</p>
                             @endif
                         @endforeach
                     @endforeach
