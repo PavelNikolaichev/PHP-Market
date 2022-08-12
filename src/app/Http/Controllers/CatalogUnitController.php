@@ -26,9 +26,6 @@ class CatalogUnitController extends Controller
             $catalogUnit->attributes()->where('name', 'RelatedTypes')->get();
         });
 
-//        $services = CatalogUnit::with('attributes')->where('type', 'Service')->where('rel_type', $data['catalogUnits'][0]->type)->get();
-//        $data['services'] = $services;
-
         $cart_hist = [];
         $cart_hist[] = (new CartObject())->add($data['catalog_units'][0]);
         $cart_hist[] = (clone end($cart_hist))->add($data['catalog_units'][2]);

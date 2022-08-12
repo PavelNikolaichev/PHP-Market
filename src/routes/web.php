@@ -17,5 +17,5 @@ use App\Http\Controllers\CatalogUnitController;
 Route::get('/', function () {
     return view('welcome');
 });
-
 Route::get('/catalog', [CatalogUnitController::class, 'index']);
+//Route::get('/dashboard', [CatalogUnitController::class, 'index']);
