@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CatalogUnitController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,5 +17,5 @@ use App\Http\Controllers\CatalogUnitController;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/catalog', [CatalogUnitController::class, 'index']);
-//Route::get('/dashboard', [CatalogUnitController::class, 'index']);
+Route::get('/catalog', [DashboardController::class, 'index']);
+Route::get('/dashboard', [DashboardController::class, 'index']);
