@@ -2,98 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Attribute;
-use App\Models\CatalogUnit;
-use App\Models\ShowroomCars;
-use App\ValueObjects\CartObject;
+use App\Repositories\IShowroomCarsRepository;
+use DateTime;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class DashboardController extends Controller
 {
+    public function __construct(private IShowroomCarsRepository $showroomCarsRepository) {}
+
     /**
      * Display a listing of the resource.
      */
     public function index(): Factory|View|Application
     {
         $data = [
-            'avg_sold_total' => 0,
-            'avg_sold_today' => 0,
-            'avg_sold_year' => [0 => 10],
-            'unsold_cars' => ShowroomCars::with('relatedModel')->get()->random(2),
-            'cars_on_sale' => ShowroomCars::with('relatedModel')->get()->random(3),
-            'sold_cars' => 0,
+            'avg_sold_total' => $this->showroomCarsRepository->getAvgPrice(),
+            'avg_sold_today' => $this->showroomCarsRepository->getAvgPrice(new DateTime('now')),
+            // Cars sold last year divided by day
+            'avg_sold_year' => $this->showroomCarsRepository
+                ->getShowroomCarsInPeriod(new DateTime('today'), new DateTime('tomorrow')),
+            // Sort by desc year and by asc price
+            'unsold_cars' => $this->showroomCarsRepository->getUnsoldCars(),
+            'cars_on_sale' => $this->showroomCarsRepository->getOnSaleCars(),
         ];
 
-        return view('CarShowroomDashboard', $data);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Attribute  $attribute
-     * @return Response
-     */
-    public function show(Attribute $attribute)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Attribute  $attribute
-     * @return Response
-     */
-    public function edit(Attribute $attribute)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Attribute  $attribute
-     * @return Response
-     */
-    public function update(Request $request, Attribute $attribute)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Attribute  $attribute
-     * @return Response
-     */
-    public function destroy(Attribute $attribute)
-    {
-        //
+        return view('carShowroomDashboard', $data);
     }
 }

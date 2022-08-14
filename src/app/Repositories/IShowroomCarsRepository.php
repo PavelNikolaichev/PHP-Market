@@ -2,8 +2,13 @@
 
 namespace App\Repositories;
 
+use DateTime;
+
 interface IShowroomCarsRepository
 {
-    public function getShowroomCars($showroomId);
-    public function getAvgPrice($date);
+    public function getShowroomCars();
+    public function getShowroomCarsInPeriod(?DateTime $start_period, ?DateTime $end_period);
+    public function getAvgPrice(?DateTime $date);
+    public function getUnsoldCars();
+    public function getOnSaleCars();
 }

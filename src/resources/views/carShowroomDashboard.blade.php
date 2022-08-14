@@ -24,7 +24,11 @@
         <h1>Car Showroom Dashboard</h1>
 
         <p>The average price on cars sold for all the time: {{ $avg_sold_total }}</p>
-        <p>The average price on cars sold today: {{ $avg_sold_today }}</p>
+        @if (null === $avg_sold_today)
+            <p>Today you have 0 sales!</p>
+        @else
+            <p>The average price on cars sold today: {{ $avg_sold_today }}</p>
+        @endif
 
         <div>
             <p>The average price on cars sold for the last year divided by day:</p>
@@ -73,6 +77,8 @@
                 <thead class="thead-dark">
                 <tr>
                     <th scope="col">Model</th>
+                    <th scope="col">Year of production</th>
+                    <th scope="col">Color</th>
                     <th scope="col">Price</th>
                 </tr>
                 </thead>
@@ -80,6 +86,8 @@
                 @foreach ($cars_on_sale as $car)
                     <tr>
                         <th scope="row" id="user-{{ $car->id }}">{{ $car->relatedModel->model }}</th>
+                        <th>{{ $car->relatedModel->year_of_production }}</th>
+                        <th>{{ $car->color }}</th>
                         <th>{{ $car->price }}</th>
                     </tr>
                 @endforeach
