@@ -21,7 +21,7 @@ class ShowroomCarsFactory extends Factory
             'vehicle_directory_id' => VehicleDirectory::all()->random()->id,
             'color' => fake()->colorName(),
             'price' => fake()->randomDigitNotNull,
-            'sign_sold' => fake()->word(),
+            'sign_sold' => fake()->numberBetween(0, 1),
             'date_of_sale' => fake()->dateTime(),
         ];
     }

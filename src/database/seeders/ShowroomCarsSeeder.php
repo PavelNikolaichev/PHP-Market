@@ -3,7 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\ShowroomCars;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Carbon\Traits\Date;
+use DateTime;
 use Illuminate\Database\Seeder;
 
 class ShowroomCarsSeeder extends Seeder
@@ -16,5 +17,18 @@ class ShowroomCarsSeeder extends Seeder
     public function run()
     {
         ShowroomCars::factory(20)->create();
+
+        ShowroomCars::factory(10)->create([
+            'sign_sold' => 1,
+        ]);
+
+        ShowroomCars::factory(10)->create([
+            'sign_sold' => 0,
+        ]);
+
+        ShowroomCars::factory(10)->create([
+            'date_of_sale' => new DateTime('now'),
+            'sign_sold' => 1,
+        ]);
     }
 }

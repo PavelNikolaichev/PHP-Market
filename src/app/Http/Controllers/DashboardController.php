@@ -19,11 +19,9 @@ class DashboardController extends Controller
     {
         $data = [
             'avg_sold_total' => $this->showroomCarsRepository->getAvgPrice(),
-            'avg_sold_today' => $this->showroomCarsRepository->getAvgPrice(new DateTime('now')),
-            // Cars sold last year divided by day
+            'avg_sold_today' => $this->showroomCarsRepository->getAvgPrice($today=true),
             'avg_sold_year' => $this->showroomCarsRepository
-                ->getShowroomCarsInPeriod(new DateTime('today'), new DateTime('tomorrow')),
-            // Sort by desc year and by asc price
+                ->getShowroomCarsInPeriod(new DateTime('yesterday'), new DateTime('today')),
             'unsold_cars' => $this->showroomCarsRepository->getUnsoldCars(),
             'cars_on_sale' => $this->showroomCarsRepository->getOnSaleCars(),
         ];

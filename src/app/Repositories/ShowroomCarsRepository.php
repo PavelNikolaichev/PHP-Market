@@ -13,28 +13,36 @@ class ShowroomCarsRepository implements IShowroomCarsRepository
         return ShowroomCars::all();
     }
 
-    public function getAvgPrice(?DateTime $date=null): int|float|null
+    public function getAvgPrice(?bool $today=null): int|float|null
     {
-        if ($date === null) {
+        if ($today === null || $today === false) {
             return ShowroomCars::all()->avg('price');
         }
 
-        return ShowroomCars::all()->where('date_of_sale', '=', $date)->pluck('price')->avg();
+        return ShowroomCars::whereBetween('date_of_sale', [new DateTime('yesterday'), new DateTime('tomorrow')])
+            ->pluck('price')
+            ->avg();
     }
 
     public function getShowroomCarsInPeriod(?DateTime $start_period, ?DateTime $end_period)
     {
+        // get count of cars sold in each day of the period
+//        return ShowroomCars::all()
+//            ->whereBetween('date_of_sale', [$start_period, $end_period])
+//            ->groupBy('date_of_sale')
+//            ->count();
         return ShowroomCars::with('relatedModel')
             ->whereBetween('date_of_sale', [$start_period, $end_period])
-            ->get();
+            ->distinct('date_of_sale')
+            ->groupBy('date_of_sale');
     }
 
     public function getUnsoldCars()
     {
-        // Sort by desc year and by asc price TODO: find a way to make a 2-level sort
-        return ShowroomCars::with('relatedModel')
+        return ShowroomCars::query()
+            ->join('vehicle_directories', 'vehicle_directories.id', '=', 'showroom_cars.vehicle_directory_id')
             ->where('sign_sold', '=', '0')
-//            ->orderByDesc('year_of_production')
+            ->orderByDesc('vehicle_directories.year_of_production')
             ->orderBy('price')
             ->get();
     }

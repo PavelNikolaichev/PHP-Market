@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('vehicle_directory_id')->constrained()->onDelete('cascade');
             $table->string('color');
             $table->integer('price');
-            $table->string('sign_sold');
+            $table->tinyInteger('sign_sold')->default(0);
             $table->dateTime('date_of_sale');
         });
     }

@@ -6,7 +6,8 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>User</title>
-
+{{--    TODO: migrate onto tailwind --}}
+{{--    @vite('resources/css/app.css')--}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
 </head>
 <body class="d-flex flex-column h-100">
@@ -20,6 +21,10 @@
     </nav>
 </header>
 <main role="main" class="flex-shrink-0">
+
+    <h1 class="text-3xl font-bold underline">
+        Hello world!
+    </h1>
     <div class="container" style="padding: 60px 15px 0">
         <h1>Car Showroom Dashboard</h1>
 
