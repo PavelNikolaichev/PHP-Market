@@ -21,7 +21,7 @@ class DashboardController extends Controller
             'avg_sold_total' => $this->showroomCarsRepository->getAvgPrice(),
             'avg_sold_today' => $this->showroomCarsRepository->getAvgPrice($today=true),
             'avg_sold_year' => $this->showroomCarsRepository
-                ->getShowroomCarsInPeriod(new DateTime('yesterday'), new DateTime('today')),
+                ->getShowroomCarsInPeriod(new DateTime('-1 year'), new DateTime('now')),
             'unsold_cars' => $this->showroomCarsRepository->getUnsoldCars(),
             'cars_on_sale' => $this->showroomCarsRepository->getOnSaleCars(),
         ];

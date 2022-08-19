@@ -26,15 +26,11 @@ class ShowroomCarsRepository implements IShowroomCarsRepository
 
     public function getShowroomCarsInPeriod(?DateTime $start_period, ?DateTime $end_period)
     {
-        // get count of cars sold in each day of the period
-//        return ShowroomCars::all()
-//            ->whereBetween('date_of_sale', [$start_period, $end_period])
-//            ->groupBy('date_of_sale')
-//            ->count();
-        return ShowroomCars::with('relatedModel')
+        return ShowroomCars::selectRaw("count(*) as total, DATE(date_of_sale) as day")
             ->whereBetween('date_of_sale', [$start_period, $end_period])
-            ->distinct('date_of_sale')
-            ->groupBy('date_of_sale');
+            ->groupBy('day')
+            ->get()
+            ->sortBy('day');
     }
 
     public function getUnsoldCars()

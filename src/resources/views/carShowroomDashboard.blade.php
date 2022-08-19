@@ -5,61 +5,72 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>User</title>
-{{--    TODO: migrate onto tailwind --}}
-{{--    @vite('resources/css/app.css')--}}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <title>Dashboard</title>
+
+    @vite('resources/css/app.css')
 </head>
-<body class="d-flex flex-column h-100">
-<header>
-    <!-- Fixed navbar -->
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand" href="/">Fixed navbar</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </nav>
-</header>
-<main role="main" class="flex-shrink-0">
+<body class="bg-black font-sans leading-normal tracking-normal">
+<div class="container w-full mx-auto pt-20">
 
-    <h1 class="text-3xl font-bold underline">
-        Hello world!
-    </h1>
-    <div class="container" style="padding: 60px 15px 0">
-        <h1>Car Showroom Dashboard</h1>
+    <div class="w-full px-4 md:px-0 md:mt-8 mb-16 text-gray-800 leading-normal">
+        <div class="flex flex-wrap">
+            <div class="w-full md:w-1/2 xl:w-1/2 p-3">
+                <div class="bg-gray-900 border border-gray-800 rounded shadow p-2">
+                    <div class="flex flex-row items-center">
+                        <div class="flex-shrink pr-4">
+                            <div class="rounded p-3 bg-green-600"><i class="fa fa-wallet fa-2x fa-fw fa-inverse"></i></div>
+                        </div>
+                        <div class="flex-1 text-right md:text-center">
+                            <h5 class="font-bold uppercase text-gray-400">Total average price</h5>
+                            <h3 class="font-bold text-3xl text-gray-600">{{ $avg_sold_total }} <span class="text-green-500"><i class="fas fa-caret-up"></i></span></h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="w-full md:w-1/2 xl:w-1/2 p-3">
+                <div class="bg-gray-900 border border-gray-800 rounded shadow p-2">
+                    <div class="flex flex-row items-center">
+                        <div class="flex-shrink pr-4">
+                            <div class="rounded p-3 bg-pink-600"><i class="fas fa-users fa-2x fa-fw fa-inverse"></i></div>
+                        </div>
+                        <div class="flex-1 text-right md:text-center">
+                            <h5 class="font-bold uppercase text-gray-400">Today average price</h5>
+                            <h3 class="font-bold text-3xl text-gray-600">{{ $avg_sold_today ?? 0 }} <span class="text-pink-500"><i class="fas fa-exchange-alt"></i></span></h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        <p>The average price on cars sold for all the time: {{ $avg_sold_total }}</p>
-        @if (null === $avg_sold_today)
-            <p>Today you have 0 sales!</p>
-        @else
-            <p>The average price on cars sold today: {{ $avg_sold_today }}</p>
-        @endif
-
-        <div>
+    <div class="w-full px-4 md:px-0 md:mt-8 mb-16 text-gray-400 leading-normal md:text-center content-center">
+        <div class="bg-gray-900 border border-gray-800 rounded shadow p-2">
             <p>The average price on cars sold for the last year divided by day:</p>
 
-            <table class="table table-striped table-hover" id="users">
-                <thead class="thead-dark">
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col">Day</th>
                         <th scope="col">No. of cars sold:</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($avg_sold_year as $day => $price)
-                        <tr>
-                            <th scope="row" id="user-{{ $day }}">{{ $day }}</th>
-                            <th>{{ $price }}</th>
+                    @foreach ($avg_sold_year as $index => $day)
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 rounded">
+                            <th scope="row" id="{{ $day['day'] }}">{{ $day['day'] }}</th>
+                            <th>{{ $day['total'] }}</th>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
+    </div>
 
-        <div>
+    <div class="w-full px-4 md:px-0 md:mt-8 mb-16 text-gray-400 leading-normal md:text-center content-center">
+        <div class="bg-gray-900 border border-gray-800 rounded shadow p-2">
             <p>The list of unsold cars:</p>
-            <table class="table table-striped table-hover" id="users">
-                <thead class="thead-dark">
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" id="users">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col">Year of manufacture</th>
                         <th scope="col">Price</th>
@@ -67,7 +78,7 @@
                 </thead>
                 <tbody>
                     @foreach ($unsold_cars as $car)
-                        <tr>
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 rounded">
                             <th scope="row" id="user-{{ $car->id }}">{{ $car->relatedModel->year_of_production }}</th>
                             <th>{{ $car->price }}</th>
                         </tr>
@@ -75,11 +86,13 @@
                 </tbody>
             </table>
         </div>
+    </div>
 
-        <div>
+    <div class="w-full px-4 md:px-0 md:mt-8 mb-16 text-gray-400 leading-normal md:text-center content-center">
+        <div class="bg-gray-900 border border-gray-800 rounded shadow p-2">
             <p>The list of car models currently on sale:</p>
-            <table class="table table-striped table-hover" id="users">
-                <thead class="thead-dark">
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" id="users">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th scope="col">Model</th>
                     <th scope="col">Year of production</th>
@@ -89,7 +102,7 @@
                 </thead>
                 <tbody>
                 @foreach ($cars_on_sale as $car)
-                    <tr>
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 rounded">
                         <th scope="row" id="user-{{ $car->id }}">{{ $car->relatedModel->model }}</th>
                         <th>{{ $car->relatedModel->year_of_production }}</th>
                         <th>{{ $car->color }}</th>
@@ -100,15 +113,6 @@
             </table>
         </div>
     </div>
-</main>
-
-<footer class="footer mt-auto py-3">
-    <div class="container">
-        <span class="text-muted">Place sticky footer content here.</span>
-    </div>
-</footer>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+</div>
 </body>
 </html>
