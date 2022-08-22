@@ -78,7 +78,7 @@
                     <tbody>
                         @foreach ($unsold_cars as $car)
                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th scope="row" id="user-{{ $car->id }}">{{ $car->relatedModel->year_of_production }}</th>
+                                <th scope="row" id="user-{{ $car->id }}">{{ $car->year_of_production }}</th>
                                 <th>{{ $car->price }}</th>
                             </tr>
                         @endforeach
@@ -102,8 +102,8 @@
                     <tbody>
                     @foreach ($cars_on_sale as $car)
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                            <th scope="row" id="user-{{ $car->id }}">{{ $car->relatedModel->model }}</th>
-                            <th>{{ $car->relatedModel->year_of_production }}</th>
+                            <th scope="row" id="user-{{ $car->id }}">{{ $car['relatedModel']->model }}</th>
+                            <th>{{ $car['relatedModel']->year_of_production }}</th>
                             <th>{{ $car->color }}</th>
                             <th>{{ $car->price }}</th>
                         </tr>

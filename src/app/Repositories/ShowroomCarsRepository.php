@@ -16,12 +16,11 @@ class ShowroomCarsRepository implements IShowroomCarsRepository
     public function getAvgPrice(?bool $today=null): int|float|null
     {
         if ($today === null || $today === false) {
-            return ShowroomCars::all()->avg('price');
+            return ShowroomCars::avg('price');
         }
 
         return ShowroomCars::whereBetween('date_of_sale', [new DateTime('yesterday'), new DateTime('tomorrow')])
-            ->pluck('price')
-            ->avg();
+            ->avg('price');
     }
 
     public function getShowroomCarsInPeriod(?DateTime $start_period, ?DateTime $end_period)
